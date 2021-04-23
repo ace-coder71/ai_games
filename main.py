@@ -8,16 +8,41 @@ def update_label(data, title, font, x, y, gameDisplay):
     gameDisplay.blit(label, (x, y))
     return y
 
-def update_data_labels(gameDisplay, dt, game_time, num_iterations, num_alive, font):
-    y_pos = 10
+def update_data_labels(gameDisplay, dt, game_time, score, highest_score, num_iterations, num_alive, font):
+    y_pos = 2
     gap = 20
     x_pos = 10
     y_pos = update_label(round(1000/dt, 2), 'FPS', font, x_pos, y_pos + gap, gameDisplay)
-    y_pos = update_label(round(game_time/1000, 2), 'Game time', font, x_pos, y_pos + gap, gameDisplay)
+    y_pos = update_label(round(game_time/1000, 2), 'Game Time', font, x_pos, y_pos + gap, gameDisplay)
+    y_pos = update_label(score, 'Score', font, x_pos, y_pos + gap, gameDisplay)
+    y_pos = update_label(highest_score, 'Highest Score', font, x_pos, y_pos + gap, gameDisplay)
     y_pos = update_label(num_iterations, 'Iterations', font, x_pos, y_pos + gap, gameDisplay)
     y_pos = update_label(num_alive, 'Birds alive ', font, x_pos, y_pos + gap, gameDisplay)
 
+
+def update_score(pipes, score):
+    closest_pipe = DISPLAY_W * 2
+    for p in pipes:
+            if p.pipe_type == PIPE_UPPER and p.rect.right < closest_pipe and p.rect.right > 181:
+                closest_pipe = p.rect.right
+
+    # print('Closest Pipe: ', closest_pipe)
+    # print('Bird: ', alive_bird.rect.left)
+    if(closest_pipe <= 184):
+        score += 1
+
+    return score
+
+def update_highest_score(score, highest_score):
+    if score > highest_score:
+        highest_score = score
+
+    return highest_score
+
 def run_game():
+
+    SCORE = 0
+    HIGHEST_SCORE = 0
 
     pygame.init() #initialize pygame
     gameDisplay = pygame.display.set_mode((DISPLAY_W, DISPLAY_H))
@@ -59,12 +84,16 @@ def run_game():
         num_alive = birds.update(dt, pipes.pipes)
 
         if num_alive == 0:
+            SCORE = 0
             pipes.create_new_set()
             game_time = 0
-            birds.create_new_generation()
+            birds.evolve_population()
             num_iterations += 1
 
-        update_data_labels(gameDisplay, dt, game_time, num_iterations, num_alive, label_font)
+        SCORE = update_score(pipes.pipes, SCORE)
+        HIGHEST_SCORE = update_highest_score(SCORE, HIGHEST_SCORE)
+
+        update_data_labels(gameDisplay, dt, game_time, SCORE, HIGHEST_SCORE, num_iterations, num_alive, label_font)
 
         pygame.display.update() #update the display for every iteration
 

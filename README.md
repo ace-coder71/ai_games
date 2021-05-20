@@ -4,7 +4,7 @@ Project : Learn to Fly
 ---
 Description : 
 ---
-This is a simple AI version of populer Flappy Bird Game. Where the AI make modification to it's gameplay to improve it's score.
+This is a simple AI version of populer Flappy Bird Game. Where the AI makes modification to it's gameplay to improve it's score.
 
 Instructions :
 ---

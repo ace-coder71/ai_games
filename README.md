@@ -1,10 +1,16 @@
 # ai_games
 ---
-## Project : Learn to Fly
+Project : Learn to Fly
 ---
 Description : 
 ---
 This is a simple AI version of populer Flappy Bird Game. Where the AI make modification to it's gameplay to improve it's score.
+
+Instructions :
+---
+1. make sure you have installed all the required libraries.
+2. clone the repo 
+3. run the main.py file and see magic happen :)
 
 Libraies Used:
 ---
